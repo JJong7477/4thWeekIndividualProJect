@@ -7,7 +7,7 @@ using UnityEngine.InputSystem;
 public class PlayerController : MonoBehaviour
 {
     private float _moveSpeed = 3f;
-    private float _jumpSpeed = 8f;
+    private float _jumpSpeed = 5f;
     private float _lookSpeed = 0.3f;
     private float cameraX;
     private float maxLookX = 85f;
