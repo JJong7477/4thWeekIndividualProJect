@@ -15,7 +15,8 @@ public class PlayerController : MonoBehaviour
     private Vector3 _lookDirection;
     private Vector2 _moveInput;
     private Rigidbody _rigidbody;
-    public GameObject Camera; 
+    public GameObject Camera;
+    public LayerMask groundLayerMask;
 
     private void Awake()
     {
@@ -53,7 +54,7 @@ public class PlayerController : MonoBehaviour
 
     public void OnJump(InputAction.CallbackContext context)
     {
-        if (context.started) _rigidbody.AddForce(Vector3.up * _jumpSpeed, ForceMode.Impulse);
+        if (context.started && IsJumping()) _rigidbody.AddForce(Vector3.up * _jumpSpeed, ForceMode.Impulse);
     }
 
     public void OnLook(InputAction.CallbackContext context)
@@ -67,5 +68,24 @@ public class PlayerController : MonoBehaviour
         cameraX = Mathf.Clamp(cameraX, minLookX, maxLookX);
         Camera.transform.localEulerAngles = new Vector3(-cameraX, 0, 0);
         transform.eulerAngles += new Vector3 (0, _lookDirection.x * _lookSpeed, 0);
+    }
+
+    private bool IsJumping()
+    {
+        Ray[] ray = new Ray[4];
+        ray[0] = new Ray(transform.position + transform.up * 0.01f + (transform.forward * 0.2f), Vector3.down);
+        ray[1] = new Ray(transform.position + transform.up * 0.01f + (-transform.forward * 0.2f), Vector3.down);
+        ray[2] = new Ray(transform.position + transform.up * 0.01f + (transform.right * 0.2f), Vector3.down);
+        ray[3] = new Ray(transform.position + transform.up * 0.01f + (-transform.right * 0.2f), Vector3.down);
+
+        for (int i = 0; i < ray.Length; i++)
+        {
+            if (Physics.Raycast(ray[i], 1.1f, groundLayerMask))
+            {
+                return true;
+            }
+        }
+        
+        return false;
     }
 }

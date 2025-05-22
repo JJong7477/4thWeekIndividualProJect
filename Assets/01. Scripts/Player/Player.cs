@@ -7,8 +7,8 @@ public class Player : MonoBehaviour
 {
     private Collider _collider;
     private Rigidbody _rigidbody;
-    private PlayerCondition _condition;
-    private PlayerController _controller;
+    public PlayerCondition Condition { get; private set; }
+    public PlayerController Controller { get; private set; }
     
     private void Awake()
     {
@@ -24,7 +24,7 @@ public class Player : MonoBehaviour
         
         _collider = GetComponent<Collider>();
         _rigidbody = GetComponent<Rigidbody>();
-        _condition = GetComponent<PlayerCondition>();
-        _controller = GetComponent<PlayerController>();
+        Condition = GetComponent<PlayerCondition>();
+        Controller = GetComponent<PlayerController>();
     }
 }
