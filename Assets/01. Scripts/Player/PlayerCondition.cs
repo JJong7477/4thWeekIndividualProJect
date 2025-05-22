@@ -1,8 +1,26 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerCondition : MonoBehaviour
+public interface IDamageable
 {
+    void TakeDamage(int damage);
+}
+
+public class PlayerCondition : MonoBehaviour, IDamageable
+{
+    public UICondition condition;
+    public event Action OnDamaged;
     
+    private HealthBar HealthBar
+    {
+        get { return condition.healthBar; }
+    }
+    
+    public void TakeDamage(int damage)
+    {
+        HealthBar.Subtract(damage);
+        OnDamaged?.Invoke();
+    }
 }
