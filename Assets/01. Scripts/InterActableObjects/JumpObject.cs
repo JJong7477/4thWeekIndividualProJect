@@ -5,7 +5,7 @@ using UnityEngine;
 
 public class JumpObject : MonoBehaviour
 {
-    private float jumpForce = 10f;
+    private float jumpForce = 14f;
     
     private void OnCollisionEnter(Collision other)
     {

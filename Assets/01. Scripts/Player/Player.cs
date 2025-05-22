@@ -7,6 +7,8 @@ public class Player : MonoBehaviour
 {
     private Collider _collider;
     private Rigidbody _rigidbody;
+    public ItemData itemData;
+    public Action addItem;
     public PlayerCondition Condition { get; private set; }
     public PlayerController Controller { get; private set; }
     
