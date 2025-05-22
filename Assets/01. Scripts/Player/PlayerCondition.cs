@@ -10,12 +10,11 @@ public interface IDamageable
 
 public class PlayerCondition : MonoBehaviour, IDamageable
 {
-    public UICondition condition;
     public event Action OnDamaged;
     
     private HealthBar HealthBar
     {
-        get { return condition.healthBar; }
+        get { return GameManager.UICondition.healthBar; }
     }
     
     public void TakeDamage(int damage)

@@ -8,8 +8,8 @@ using UnityEngine.UI;
 public class HealthBar : MonoBehaviour
 {
     private float _currentAmount;
-    private float _startAmount = 1f;
-    private float _maxAmount = 1f;
+    private float _startAmount = 100f;
+    private float _maxAmount = 100f;
     
     private Image _health;
 
