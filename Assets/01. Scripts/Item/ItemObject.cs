@@ -4,7 +4,7 @@ using UnityEngine;
 
 public interface IInteractable
 {
-    public string GetInteractPrompt();
+    public string GetInteractInfo();
     public void OnInteract();
 }
 
@@ -12,7 +12,7 @@ public class ItemObject : MonoBehaviour, IInteractable
 {
     public ItemData data;
 
-    public string GetInteractPrompt()
+    public string GetInteractInfo()
     {
         string str = $"{data.displayName}\n{data.description}";
         return str;
@@ -21,7 +21,7 @@ public class ItemObject : MonoBehaviour, IInteractable
     public void OnInteract()
     {
         GameManager.Player.itemData = data;
-        GameManager.Player.addItem?.Invoke();
+        GameManager.Player.AddItem?.Invoke();
         Destroy(gameObject);
     }
 }

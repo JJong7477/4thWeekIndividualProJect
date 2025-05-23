@@ -9,19 +9,19 @@ public class PlayerController : MonoBehaviour
     private float _moveSpeed = 3f;
     private float _jumpSpeed = 5f;
     private float _lookSpeed = 0.3f;
-    private float cameraX;
-    private float maxLookX = 85f;
-    private float minLookX = -80f;
+    private float _cameraX;
+    private float _maxLookX = 85f;
+    private float _minLookX = -80f;
     private Vector3 _lookDirection;
     private Vector2 _moveInput;
     private Rigidbody _rigidbody;
-    public GameObject Camera;
     public LayerMask groundLayerMask;
+    public GameObject PlayerCamera { get; private set; }
 
     private void Awake()
     {
         _rigidbody = GetComponent<Rigidbody>();
-        Camera = GameObject.FindGameObjectWithTag("GodEyes");
+        PlayerCamera = GameObject.FindGameObjectWithTag("GodEyes");
     }
 
     private void Start()
@@ -64,9 +64,9 @@ public class PlayerController : MonoBehaviour
 
     private void CameraLook()
     {
-        cameraX += _lookDirection.y * _lookSpeed;
-        cameraX = Mathf.Clamp(cameraX, minLookX, maxLookX);
-        Camera.transform.localEulerAngles = new Vector3(-cameraX, 0, 0);
+        _cameraX += _lookDirection.y * _lookSpeed;
+        _cameraX = Mathf.Clamp(_cameraX, _minLookX, _maxLookX);
+        PlayerCamera.transform.localEulerAngles = new Vector3(-_cameraX, 0, 0);
         transform.eulerAngles += new Vector3 (0, _lookDirection.x * _lookSpeed, 0);
     }
 

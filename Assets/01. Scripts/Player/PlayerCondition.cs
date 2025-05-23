@@ -10,16 +10,30 @@ public interface IDamageable
 
 public class PlayerCondition : MonoBehaviour, IDamageable
 {
+    public float Health { get; private set; } = 100f;
+    public float MaxHealth { get; private set; } = 100f;
+    public float CurrentHealth { get; private set; }
+    
+    public float Stamina { get; private set; } = 20f;
+    public float MaxStamina { get; private set; } = 20f;
+    public float CurrentStamina { get; private set; }
+    
     public event Action OnDamaged;
-    
-    private HealthBar HealthBar
+
+    private void Start()
     {
-        get { return GameManager.UICondition.healthBar; }
+        CurrentHealth = Health;
+        CurrentStamina = Stamina;
     }
-    
+
     public void TakeDamage(int damage)
     {
-        HealthBar.Subtract(damage);
+        CurrentHealth = Mathf.Max(CurrentHealth - damage, 0);
         OnDamaged?.Invoke();
+    }
+    
+    public void Heal(float value)
+    {
+        CurrentHealth = Mathf.Min(CurrentHealth + value, MaxHealth);
     }
 }

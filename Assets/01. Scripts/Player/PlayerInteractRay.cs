@@ -11,16 +11,16 @@ public class PlayerInteractRay : MonoBehaviour
     private float _maxCheckDistance = 5f;
     public LayerMask layerMask;
     
-    public GameObject curInteractGameObject;
-    private IInteractable curInteractable;
-
+    private Camera _camera;
     public GameObject toolTipUI;
+    public GameObject curInteractGameObject;
     public TextMeshProUGUI toolTipText;
-    private Camera camera;
+
+    private IInteractable _curInteractable;
 
     private void Start()
     {
-        camera = Camera.main;
+        _camera = Camera.main;
         toolTipUI = GameObject.Find("ToolTipBG");
         toolTipText = toolTipUI.GetComponentInChildren<TextMeshProUGUI>();
         toolTipUI.SetActive(false);
@@ -32,7 +32,7 @@ public class PlayerInteractRay : MonoBehaviour
         {
             _lastCheckTime = Time.time;
             
-            Ray ray = camera.ScreenPointToRay(new Vector3(Screen.width / 2, Screen.height / 2, 0));
+            Ray ray = _camera.ScreenPointToRay(new Vector3(Screen.width / 2, Screen.height / 2, 0));
             RaycastHit hit;
 
             if (Physics.Raycast(ray, out hit, _maxCheckDistance, layerMask))
@@ -40,32 +40,32 @@ public class PlayerInteractRay : MonoBehaviour
                 if (hit.collider.gameObject != curInteractGameObject)
                 {
                     curInteractGameObject = hit.collider.gameObject;
-                    curInteractable = hit.collider.GetComponent<IInteractable>();
-                    SetPromptText();
+                    _curInteractable = hit.collider.GetComponent<IInteractable>();
+                    SetToolTipText();
                 }
             }
             else
             {
                 curInteractGameObject = null;
-                curInteractable = null;
+                _curInteractable = null;
                 toolTipUI.SetActive(false);
             }
         }
     }
 
-    private void SetPromptText()
+    private void SetToolTipText()
     {
         toolTipUI.SetActive(true);
-        toolTipText.text = curInteractable.GetInteractPrompt();
+        toolTipText.text = _curInteractable.GetInteractInfo();
     }
 
     public void OnInteractInput(InputAction.CallbackContext context)
     {
-        if (context.started && curInteractable != null)
+        if (context.started && _curInteractable != null)
         {
-            curInteractable.OnInteract();
+            _curInteractable.OnInteract();
             curInteractGameObject = null;
-            curInteractable = null;
+            _curInteractable = null;
             toolTipUI.SetActive(false);
         }
     }

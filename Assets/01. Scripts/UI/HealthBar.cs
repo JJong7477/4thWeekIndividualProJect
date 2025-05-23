@@ -8,29 +8,19 @@ using UnityEngine.UI;
 public class HealthBar : MonoBehaviour
 {
     private float _currentAmount;
-    private float _startAmount = 100f;
-    private float _maxAmount = 100f;
+    private float _maxAmount;
     
     private Image _health;
 
     private void Start()
     {
+        _maxAmount = GameManager.Player.Condition.MaxHealth;
         _health = this.transform.Find("Health").GetComponent<Image>();
-        _currentAmount = _startAmount;
     }
 
     private void Update()
     {
+        _currentAmount = GameManager.Player.Condition.CurrentHealth;
         _health.fillAmount = _currentAmount / _maxAmount;
-    }
-    
-    public void Add(float value)
-    {
-        _currentAmount = Mathf.Min(_currentAmount + value, _maxAmount);
-    }
-
-    public void Subtract(float value)
-    {
-        _currentAmount = Mathf.Max(_currentAmount - value, 0);
     }
 }
